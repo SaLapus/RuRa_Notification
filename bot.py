@@ -25,6 +25,8 @@ def getLPObserver():
 
     print("Server is created")
 
+
+
     def getUpdates():
         req = requests.get(f'{LPServer}', params=LPPayload)
 

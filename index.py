@@ -1,5 +1,7 @@
-import requests
 import json
+import re
+
+import requests
 
 import bot
 
@@ -23,4 +25,17 @@ while True:
     for item in updates:
         logItem(item)
 
-        
+        if item["type"] == "wall_post_new":
+            post = item['object']
+
+            p = re.compile('https://ruranobe.ru/r/(.*?)/')
+            link = p.search(post['text'])
+
+            if link is not None:
+                title = p.search(post['text']).group(1)
+                print(title)
+                bot.sendNotifications(title)
+        elif item["type"] == "message_new":
+            message = item['object']['message']
+
+            
