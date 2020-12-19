@@ -27,12 +27,18 @@ def getRandomID(user_id):
 
         connection.commit()
 
-    cursor.execute(
-        f'INSERT OR REPLACE INTO t VALUES({user_id}, {random_id + 1})')
-    results = cursor.fetchall()
-    connection.commit()
+    setRandomID(user_id, random_id + 1)
 
     return random_id
+
+def setRandomID(user_id, random_id):
+    cursor.execute(
+        f'UPDATE t SET random_id={random_id} WHERE user_id={user_id}')
+    cursor.fetchall()
+    connection.commit()
+
+    return True
+
 
 
 def getTitleSubscribers(title):
@@ -40,7 +46,6 @@ def getTitleSubscribers(title):
     results = cursor.fetchall()
 
     return results[0][0].split(',')
-
 
 def addTitleSubscriber(title, user_id):
     cursor.execute(f'SELECT user_ids FROM subs WHERE title="{title}"')

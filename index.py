@@ -32,10 +32,12 @@ while True:
             link = p.search(post['text'])
 
             if link is not None:
-                title = p.search(post['text']).group(1)
+                title = link.group(1)
                 print(title)
-                bot.sendNotifications(title)
+                bot.sendNotifications(
+                    title, wall_post={'media_id': post['id'], 'owner_id': post['owner_id']})
         elif item["type"] == "message_new":
             message = item['object']['message']
 
-            
+            # bot.sendMessage(
+            #     user_id=message['from_id'], random_id=message, message=message['text'])
