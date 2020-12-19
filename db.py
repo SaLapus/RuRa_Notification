@@ -45,6 +45,9 @@ def getTitleSubscribers(title):
     cursor.execute(f'SELECT user_ids FROM subs WHERE title="{title}"')
     results = cursor.fetchall()
 
+    print('SUBS')
+    print(results[0][0].split(','))
+
     return results[0][0].split(',')
 
 def addTitleSubscriber(title, user_id):

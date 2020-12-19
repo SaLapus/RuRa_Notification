@@ -49,13 +49,12 @@ def getLPObserver():
 
 def sendNotifications(title, wall_post):
 
-    users = 'next string'
-    db.getTitleSubscribers(title)
+    users = db.getTitleSubscribers(title)
 
     for user in users:
         sendMessage(
-            user_id=user, 
-            random_id=db.getRandomID(user), 
+            user_id=user,
+            random_id=db.getRandomID(user),
             attachment=f'wall{wall_post["owner_id"]}_{wall_post["media_id"]}'
         )
 
@@ -65,18 +64,18 @@ def sendMessage(user_id, random_id, message='', attachment=''):
     payload = {
         'user_id': f'{user_id}',
         'random_id': f'{random_id}',
-        'peer_id': f'{user_id}'
+        'peer_id': f'{user_id}',
+        'message': f'{message}'
     }
 
-    if message != '':
-        payload['message']: f'{message}'
-    
     if attachment != '':
-        payload['attachment']: f'{attachment}'
+        payload['attachment'] = f'{attachment}'
 
     for index, value in data.items():
         payload[index] = value
 
+    print(json.dumps(payload, indent=5))
+    print(attachment)
     r = requests.get('https://api.vk.com/method/messages.send', params=payload)
 
-    print(r.json())
+    print('SEND MESSAGE RESPONCE:', r.json())
